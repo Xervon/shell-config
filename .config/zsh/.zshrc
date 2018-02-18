@@ -25,6 +25,7 @@ load_ssh_keys() {
 if [[ $- = *i* ]]; then
 	# only interactive
 	
+	# load ssh-agent
 	start_or_load_ssh_agent >/dev/null 2>&1
 	load_ssh_keys
 fi
