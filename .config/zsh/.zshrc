@@ -1,3 +1,20 @@
+antigen_init() {
+	antigen use oh-my-zsh
+
+	antigen theme nojhan/liquidprompt
+
+	antigen bundle git
+	antigen bundle pip
+	antigen bundle lein
+	antigen bundle command-not-found
+
+	antigen bundle zsh-users/zsh-syntax-highlighting
+	antigen bundle zsh-users/zsh-autosuggestions
+	antigen bundle zsh-users/zsh-completions
+
+	antigen apply
+}
+
 start_or_load_ssh_agent() {
 	local ssh_env="$HOME/.ssh/.env"
 
@@ -25,6 +42,10 @@ load_ssh_keys() {
 if [[ $- = *i* ]]; then
 	# only interactive
 	
+	# load antigen
+	. "$ZDOTDIR/antigen/antigen.zsh"
+	antigen_init
+
 	# load ssh-agent
 	start_or_load_ssh_agent >/dev/null 2>&1
 	load_ssh_keys
