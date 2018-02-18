@@ -39,6 +39,13 @@ load_ssh_keys() {
 	fi
 }
 
+load_functions() {
+	local i;
+	for i in "$ZDOTDIR/functions"/*.zsh; do
+		. "$i"
+	done
+}
+
 if [[ $- = *i* ]]; then
 	# only interactive
 	
@@ -49,6 +56,9 @@ if [[ $- = *i* ]]; then
 	# load ssh-agent
 	start_or_load_ssh_agent >/dev/null 2>&1
 	load_ssh_keys
+
+	# load custom functions
+	load_functions
 fi
 
 # add config alias
