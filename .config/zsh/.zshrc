@@ -26,7 +26,7 @@ if [[ $- = *i* ]]; then
 	# only interactive
 	
 	start_or_load_ssh_agent >/dev/null 2>&1
-	load_ssh_keys >/dev/null 2>&1
+	load_ssh_keys
 fi
 
 # add config alias
