@@ -52,10 +52,13 @@ load_functions() {
 
 if [[ $- = *i* ]]; then
 	# only interactive
+	# set fpath
+	fpath+="$HOME/.local/usr/share/zsh/site-functions"
 	
 	# load antigen
 	. "$ZDOTDIR/antigen/antigen.zsh"
 	antigen_init
+	autoload -Uz compinit && compinit
 
 	# load ssh-agent
 	start_or_load_ssh_agent >/dev/null 2>&1
