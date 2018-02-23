@@ -34,7 +34,7 @@ start_or_load_ssh_agent() {
 }
 
 load_ssh_keys() {
-	if ! ssh-add -l; then
+	if ! ssh-add -l >/dev/null; then
 		ssh-add
 	fi
 }
