@@ -1,3 +1,8 @@
+## variables
+ASDF="/opt/asdf"
+ASDF_SOURCE="$ASDF/asdf.sh"
+ASDF_COMPLETION="$ASDF/completions/asdf.bash"
+
 ## functions
 antigen_init() {
 	antigen use oh-my-zsh
@@ -50,6 +55,8 @@ load_functions() {
 	fi
 }
 
+[ -e "$ASDF_SOURCE" ] && . "$ASDF_SOURCE"
+
 if [[ $- = *i* ]]; then
 	# only interactive
 	# set fpath
@@ -66,6 +73,9 @@ if [[ $- = *i* ]]; then
 
 	# load custom functions
 	load_functions
+
+	## completions
+	[ -e "$ASDF_COMPLETION" ] && . "$ASDF_COMPLETION"
 fi
 
 ## aliases
