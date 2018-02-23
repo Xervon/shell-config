@@ -41,7 +41,7 @@ load_ssh_keys() {
 
 load_functions() {
 	local i;
-	local files=( "$ZDOTDIR/functions"/*.zsh );
+	local files=( "$ZDOTDIR/functions"/*.zsh(N) );
 	if [ ! -z $files ]; then
 		for i in $files; do
 			. "$i"
