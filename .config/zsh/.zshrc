@@ -1,3 +1,4 @@
+## functions
 antigen_init() {
 	antigen use oh-my-zsh
 
@@ -64,5 +65,6 @@ if [[ $- = *i* ]]; then
 	load_functions
 fi
 
+## aliases
 # add config alias
 alias c="git --git-dir=$HOME/.config/shell-config --work-tree=$HOME"
