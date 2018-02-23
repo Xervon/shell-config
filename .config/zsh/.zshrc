@@ -5,43 +5,62 @@ ASDF_COMPLETION="$ASDF/completions/asdf.bash"
 
 ## functions
 antigen_init() {
-	antigen use oh-my-zsh
+	local antigen="$(command -v antigen)"
 
-	antigen theme nojhan/liquidprompt
+	if [ ! -x "$antigen" ]; then
+		return 255
+	fi
 
-	antigen bundle git
-	antigen bundle pip
-	antigen bundle lein
-	antigen bundle command-not-found
+	$antigen use oh-my-zsh
 
-	antigen bundle zsh-users/zsh-syntax-highlighting
-	antigen bundle zsh-users/zsh-autosuggestions
-	antigen bundle zsh-users/zsh-completions
+	$antigen theme nojhan/liquidprompt
 
-	antigen apply
+	$antigen bundle git
+	$antigen bundle pip
+	$antigen bundle lein
+	$antigen bundle command-not-found
+
+	$antigen bundle zsh-users/zsh-syntax-highlighting
+	$antigen bundle zsh-users/zsh-autosuggestions
+	$antigen bundle zsh-users/zsh-completions
+
+	$antigen apply
 }
 
 start_or_load_ssh_agent() {
+	local ssh_agent="$(command -v ssh-agent)"
+	local rm="$(command -v rm)"
+
+	if [ ! -x "$ssh_agent" ] || [ ! -x "$rm" ]; then
+		return 255
+	fi
+
 	local ssh_env="$HOME/.ssh/.env"
 
 	if [[ -f "$ssh_env" ]]; then
 		. "$ssh_env"
 
 		if ! kill -CONT "$SSH_AGENT_PID"; then
-			rm -f "$ssh_env"
+			$rm -f "$ssh_env"
 			start_or_load_ssh_agent
 		fi
 
-		return
+		return 0
 	else
-		ssh-agent > "$ssh_env"
+		$ssh_agent > "$ssh_env"
 		. "$ssh_env"
 	fi
 }
 
 load_ssh_keys() {
+	local ssh_add="$(command -v ssh-add)"
+
+	if [ ! -x "$ssh_add" ]; then
+		return 255
+	fi
+
 	if ! ssh-add -l >/dev/null; then
-		ssh-add
+		$ssh_add
 	fi
 }
 
@@ -68,8 +87,9 @@ if [[ $- = *i* ]]; then
 	autoload -Uz compinit && compinit
 
 	# load ssh-agent
-	start_or_load_ssh_agent >/dev/null 2>&1
-	load_ssh_keys
+	if start_or_load_ssh_agent >/dev/null 2>&1; then
+		load_ssh_keys
+	fi
 
 	# load custom functions
 	load_functions
