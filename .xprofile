@@ -1,0 +1,3 @@
+if cmd_numlockx="$(command -v numlockx)"; then
+	"$cmd_numlockx" on
+fi
