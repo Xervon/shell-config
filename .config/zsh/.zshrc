@@ -13,20 +13,20 @@ antigen_init() {
 		return 255
 	fi
 
-	$cmd_antigen use oh-my-zsh
+	"$cmd_antigen" use oh-my-zsh
 
-	$cmd_antigen theme nojhan/liquidprompt
+	"$cmd_antigen" theme nojhan/liquidprompt
 
-	$cmd_antigen bundle git
-	$cmd_antigen bundle pip
-	$cmd_antigen bundle lein
-	$cmd_antigen bundle command-not-found
+	"$cmd_antigen" bundle git
+	"$cmd_antigen" bundle pip
+	"$cmd_antigen" bundle lein
+	"$cmd_antigen" bundle command-not-found
 
-	$cmd_antigen bundle zsh-users/zsh-syntax-highlighting
-	$cmd_antigen bundle zsh-users/zsh-autosuggestions
-	$cmd_antigen bundle zsh-users/zsh-completions
+	"$cmd_antigen" bundle zsh-users/zsh-syntax-highlighting
+	"$cmd_antigen" bundle zsh-users/zsh-autosuggestions
+	"$cmd_antigen" bundle zsh-users/zsh-completions
 
-	$cmd_antigen apply
+	"$cmd_antigen" apply
 }
 
 start_or_load_ssh_agent() {
@@ -44,17 +44,17 @@ start_or_load_ssh_agent() {
 	local ssh_env="$HOME/.ssh/.env"
 
 	if [[ -f "$ssh_env" ]]; then
-		$cmd_source "$ssh_env"
+		"$cmd_source" "$ssh_env"
 
-		if ! $cmd_kill -CONT "$SSH_AGENT_PID"; then
-			$cmd_rm -f "$ssh_env"
+		if ! "$cmd_kill" -CONT "$SSH_AGENT_PID"; then
+			"$cmd_rm" -f "$ssh_env"
 			start_or_load_ssh_agent
 		fi
 
 		return 0
 	else
-		$cmd_ssh_agent > "$ssh_env"
-		$cmd_source "$ssh_env"
+		"$cmd_ssh_agent" > "$ssh_env"
+		"$cmd_source" "$ssh_env"
 	fi
 }
 
@@ -67,8 +67,8 @@ load_ssh_keys() {
 		return 255
 	fi
 
-	if ! $cmd_ssh_add -l >/dev/null; then
-		$cmd_ssh_add
+	if ! "$cmd_ssh_add" -l >/dev/null; then
+		"$cmd_ssh_add"
 	fi
 }
 
