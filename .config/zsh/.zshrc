@@ -30,10 +30,7 @@ antigen_init() {
 }
 
 start_or_load_ssh_agent() {
-	local cmd_ssh_agent
-	local cmd_rm
-	local cmd_kill
-	local cmd_source
+	local cmd_ssh_agent cmd_rm cmd_kill cmd_source
 
 	if ! {
 		cmd_ssh_agent="$(command -v ssh-agent)" \
@@ -76,8 +73,9 @@ load_ssh_keys() {
 }
 
 load_functions() {
-	local i;
-	local files=( "$ZDOTDIR/functions"/*.zsh(N) );
+	local i files;
+
+	files=( "$ZDOTDIR/functions"/*.zsh(N) );
 	if [ ! -z $files ]; then
 		for i in $files; do
 			. "$i"
