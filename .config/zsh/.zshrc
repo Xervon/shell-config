@@ -5,62 +5,73 @@ ASDF_COMPLETION="$ASDF/completions/asdf.bash"
 
 ## functions
 antigen_init() {
-	local antigen="$(command -v antigen)"
+	local cmd_antigen
 
-	if [ ! -x "$antigen" ]; then
+	if ! {
+		cmd_antigen="$(command -v antigen)" \
+	}; then
 		return 255
 	fi
 
-	$antigen use oh-my-zsh
+	$cmd_antigen use oh-my-zsh
 
-	$antigen theme nojhan/liquidprompt
+	$cmd_antigen theme nojhan/liquidprompt
 
-	$antigen bundle git
-	$antigen bundle pip
-	$antigen bundle lein
-	$antigen bundle command-not-found
+	$cmd_antigen bundle git
+	$cmd_antigen bundle pip
+	$cmd_antigen bundle lein
+	$cmd_antigen bundle command-not-found
 
-	$antigen bundle zsh-users/zsh-syntax-highlighting
-	$antigen bundle zsh-users/zsh-autosuggestions
-	$antigen bundle zsh-users/zsh-completions
+	$cmd_antigen bundle zsh-users/zsh-syntax-highlighting
+	$cmd_antigen bundle zsh-users/zsh-autosuggestions
+	$cmd_antigen bundle zsh-users/zsh-completions
 
-	$antigen apply
+	$cmd_antigen apply
 }
 
 start_or_load_ssh_agent() {
-	local ssh_agent="$(command -v ssh-agent)"
-	local rm="$(command -v rm)"
+	local cmd_ssh_agent
+	local cmd_rm
+	local cmd_kill
+	local cmd_source
 
-	if [ ! -x "$ssh_agent" ] || [ ! -x "$rm" ]; then
+	if ! {
+		cmd_ssh_agent="$(command -v ssh-agent)" \
+		&& cmd_rm="$(command -v rm)" \
+		&& cmd_kill="$(command -v kill)" \
+		&& cmd_source="$(command -v source)" \
+	}; then
 		return 255
 	fi
 
 	local ssh_env="$HOME/.ssh/.env"
 
 	if [[ -f "$ssh_env" ]]; then
-		. "$ssh_env"
+		$cmd_source "$ssh_env"
 
-		if ! kill -CONT "$SSH_AGENT_PID"; then
-			$rm -f "$ssh_env"
+		if ! $cmd_kill -CONT "$SSH_AGENT_PID"; then
+			$cmd_rm -f "$ssh_env"
 			start_or_load_ssh_agent
 		fi
 
 		return 0
 	else
-		$ssh_agent > "$ssh_env"
-		. "$ssh_env"
+		$cmd_ssh_agent > "$ssh_env"
+		$cmd_source "$ssh_env"
 	fi
 }
 
 load_ssh_keys() {
-	local ssh_add="$(command -v ssh-add)"
+	local cmd_ssh_add
 
-	if [ ! -x "$ssh_add" ]; then
+	if ! {
+		cmd_ssh_add="$(command -v ssh-add)" \
+	}; then
 		return 255
 	fi
 
-	if ! ssh-add -l >/dev/null; then
-		$ssh_add
+	if ! $cmd_ssh_add -l >/dev/null; then
+		$cmd_ssh_add
 	fi
 }
 
