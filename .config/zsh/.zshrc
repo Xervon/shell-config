@@ -115,3 +115,10 @@ fi
 ## aliases
 # add config alias
 alias c="git --git-dir=$HOME/.config/shell-config --work-tree=$HOME"
+
+## load local .zshrc if available
+if [ -e "$HOME/.zshrc.local" ]; then
+	"$cmd_source" "$HOME/.zshrc.local"
+else
+	true
+fi
