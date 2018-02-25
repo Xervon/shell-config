@@ -1,3 +1,8 @@
+if ! cmd_source="$(command -v source)"; then
+	echo "no source!"
+	exit 255
+fi
+
 ## variables
 ASDF="/opt/asdf"
 ASDF_SOURCE="$ASDF/asdf.sh"
@@ -30,7 +35,7 @@ antigen_init() {
 }
 
 start_or_load_ssh_agent() {
-	local cmd_ssh_agent cmd_rm cmd_kill cmd_source
+	local cmd_ssh_agent cmd_rm cmd_kill
 
 	if ! {
 		cmd_ssh_agent="$(command -v ssh-agent)" \
@@ -78,12 +83,12 @@ load_functions() {
 	files=( "$ZDOTDIR/functions"/*.zsh(N) );
 	if [ ! -z $files ]; then
 		for i in $files; do
-			. "$i"
+			"$cmd_source" "$i"
 		done
 	fi
 }
 
-[ -e "$ASDF_SOURCE" ] && . "$ASDF_SOURCE"
+[ -e "$ASDF_SOURCE" ] && "$cmd_source" "$ASDF_SOURCE"
 
 if [[ $- = *i* ]]; then
 	# only interactive
@@ -91,7 +96,7 @@ if [[ $- = *i* ]]; then
 	fpath+="$HOME/.local/usr/share/zsh/site-functions"
 	
 	# load antigen
-	. "$ZDOTDIR/antigen/antigen.zsh"
+	"$cmd_source" "$ZDOTDIR/antigen/antigen.zsh"
 	antigen_init
 	autoload -Uz compinit && compinit
 
@@ -104,7 +109,7 @@ if [[ $- = *i* ]]; then
 	load_functions
 
 	## completions
-	[ -e "$ASDF_COMPLETION" ] && . "$ASDF_COMPLETION"
+	[ -e "$ASDF_COMPLETION" ] && "$cmd_source" "$ASDF_COMPLETION"
 fi
 
 ## aliases
