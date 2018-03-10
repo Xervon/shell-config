@@ -121,6 +121,9 @@ if [[ $- = *i* ]]; then
 	[ -e "$ASDF_COMPLETION" ] && "$cmd_source" "$ASDF_COMPLETION"
 fi
 
+# Set vimrc's location and source it on vim startup
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/nvim/init.vim" | source $MYVIMRC'
+
 ## aliases
 # add config alias
 alias c="git --git-dir=$HOME/.config/shell-config --work-tree=$HOME"
