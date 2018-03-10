@@ -1,6 +1,8 @@
 [user]
 	email = xervondev@gmail.com
 	name = Mika Dede
+[core]
+	excludesfile = ~/.config/git/globalignore
 [push]
 	default = simple
 [credential]
