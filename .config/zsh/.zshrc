@@ -88,6 +88,11 @@ load_functions() {
 	fi
 }
 
+# set XDG_ variables
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
 # load asdf
 [ -e "$ASDF_SOURCE" ] && "$cmd_source" "$ASDF_SOURCE"
 
