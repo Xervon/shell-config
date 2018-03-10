@@ -93,6 +93,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
+# set histfile
+export HISTFILE="$XDG_DATA_HOME/zsh/history"
+
 # load asdf
 [ -e "$ASDF_SOURCE" ] && "$cmd_source" "$ASDF_SOURCE"
 
