@@ -88,6 +88,7 @@ load_functions() {
 	fi
 }
 
+# load asdf
 [ -e "$ASDF_SOURCE" ] && "$cmd_source" "$ASDF_SOURCE"
 
 if [[ $- = *i* ]]; then
